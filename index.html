@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0" />
+		<meta
+			name="description"
+			content="Помодоро таймер для повышения продуктивности" />
+		<title>Помодоро Таймер</title>
+		<link
+			rel="stylesheet"
+			href="styles/style.css" />
+		<link
+			rel="manifest"
+			href="manifest.json" />
+		<meta
+			name="theme-color"
+			content="#FF6B6B" />
+	</head>
+	<body>
+		<main class="app">
+			<header class="app-header">
+				<h1 class="app-title">🍅 Помодоро Таймер</h1>
+				<p class="app-subtitle">Техника повышения продуктивности</p>
+			</header>
+
+			<section
+				class="timer-section"
+				aria-label="Основной таймер">
+				<div class="timer-display">
+					<div class="timer-circle">
+						<svg
+							class="progress-ring"
+							width="300"
+							height="300">
+							<circle
+								class="progress-ring-circle-bg"
+								stroke="#E5E5E5"
+								stroke-width="8"
+								fill="transparent"
+								r="142"
+								cx="150"
+								cy="150" />
+							<circle
+								class="progress-ring-circle"
+								stroke="#FF6B6B"
+								stroke-width="8"
+								fill="transparent"
+								r="142"
+								cx="150"
+								cy="150"
+								stroke-linecap="round" />
+						</svg>
+						<div class="timer-text">
+							<span class="minutes">25</span>
+							<span class="separator">:</span>
+							<span class="seconds">00</span>
+						</div>
+						<div class="timer-label">Рабочая сессия</div>
+					</div>
+				</div>
+
+				<div class="timer-controls">
+					<button
+						class="btn btn-primary"
+						id="startBtn"
+						aria-label="Начать таймер">
+						<span class="btn-icon">▶️</span>
+						Старт
+					</button>
+					<button
+						class="btn btn-secondary"
+						id="pauseBtn"
+						disabled
+						aria-label="Пауза">
+						<span class="btn-icon">⏸️</span>
+						Пауза
+					</button>
+					<button
+						class="btn btn-secondary"
+						id="resetBtn"
+						aria-label="Сбросить таймер">
+						<span class="btn-icon">🔄</span>
+						Сброс
+					</button>
+				</div>
+			</section>
+
+			<section
+				class="sessions-section"
+				aria-label="Сессии и статистика">
+				<div class="sessions-info">
+					<div class="session-item">
+						<span class="session-label">Рабочие сессии:</span>
+						<span
+							class="session-count"
+							id="workSessions"
+							>0</span
+						>
+					</div>
+					<div class="session-item">
+						<span class="session-label">Короткие перерывы:</span>
+						<span
+							class="session-count"
+							id="shortBreaks"
+							>0</span
+						>
+					</div>
+					<div class="session-item">
+						<span class="session-label">Длинные перерывы:</span>
+						<span
+							class="session-count"
+							id="longBreaks"
+							>0</span
+						>
+					</div>
+				</div>
+			</section>
+
+			<section
+				class="settings-section"
+				aria-label="Настройки таймера">
+				<details class="settings-details">
+					<summary class="settings-summary">
+						⚙️ Настройки таймера
+					</summary>
+					<div class="settings-content">
+						<div class="setting-group">
+							<label
+								for="workDuration"
+								class="setting-label"
+								>Рабочая сессия (мин):</label
+							>
+							<input
+								type="number"
+								id="workDuration"
+								class="setting-input"
+								min="1"
+								max="60"
+								value="25" />
+						</div>
+
+						<div class="setting-group">
+							<label
+								for="shortBreakDuration"
+								class="setting-label"
+								>Короткий перерыв (мин):</label
+							>
+							<input
+								type="number"
+								id="shortBreakDuration"
+								class="setting-input"
+								min="1"
+								max="30"
+								value="5" />
+						</div>
+
+						<div class="setting-group">
+							<label
+								for="longBreakDuration"
+								class="setting-label"
+								>Длинный перерыв (мин):</label
+							>
+							<input
+								type="number"
+								id="longBreakDuration"
+								class="setting-input"
+								min="1"
+								max="60"
+								value="15" />
+						</div>
+
+						<div class="setting-group">
+							<label
+								for="sessionsUntilLongBreak"
+								class="setting-label"
+								>Сессий до длинного перерыва:</label
+							>
+							<input
+								type="number"
+								id="sessionsUntilLongBreak"
+								class="setting-input"
+								min="2"
+								max="8"
+								value="4" />
+						</div>
+
+						<div class="setting-group">
+							<label class="setting-label">
+								<input
+									type="checkbox"
+									id="enableNotifications"
+									checked />
+								Уведомления браузера
+							</label>
+						</div>
+
+						<div class="setting-group">
+							<label class="setting-label">
+								<input
+									type="checkbox"
+									id="enableSound"
+									checked />
+								Звуковые сигналы
+							</label>
+						</div>
+					</div>
+				</details>
+			</section>
+
+			<section
+				class="info-section"
+				aria-label="Информация о технике">
+				<details class="info-details">
+					<summary class="info-summary">
+						ℹ️ О технике Помодоро
+					</summary>
+					<div class="info-content">
+						<p>
+							Техника Помодоро — это метод управления временем,
+							разработанный Франческо Чирилло в конце 1980-х
+							годов.
+						</p>
+						<ul>
+							<li>
+								<strong>Рабочая сессия:</strong> 25 минут
+								сосредоточенной работы
+							</li>
+							<li>
+								<strong>Короткий перерыв:</strong> 5 минут
+								отдыха
+							</li>
+							<li>
+								<strong>Длинный перерыв:</strong> 15-30 минут
+								после 4 рабочих сессий
+							</li>
+						</ul>
+						<p>
+							Цель — улучшить концентрацию и предотвратить
+							выгорание за счет регулярных перерывов.
+						</p>
+					</div>
+				</details>
+			</section>
+		</main>
+
+		<audio
+			id="tickSound"
+			preload="none">
+			<source
+				src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBCFR0e3wzmkZ"
+				type="audio/wav" />
+		</audio>
+
+		<audio
+			id="alarmSound"
+			preload="none">
+			<source
+				src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBCFR0e3wzmkZ"
+				type="audio/wav" />
+		</audio>
+
+		<script src="scripts/app.js"></script>
+		<script src="scripts/sw-register.js"></script>
+	</body>
+</html>
