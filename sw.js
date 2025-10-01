@@ -3,7 +3,7 @@
  * Обеспечивает фоновую работу таймера и уведомления даже при закрытой вкладке
  */
 
-const CACHE_NAME = 'pomodoro-timer-v1';
+const CACHE_NAME = 'pomodoro-timer-v2';
 const urlsToCache = [
 	'/',
 	'/index.html',
@@ -67,14 +67,41 @@ self.addEventListener('fetch', (event) => {
 		return;
 	}
 
+	const url = new URL(event.request.url);
+
+	// Network-first стратегия для HTML (чтобы получать обновления)
+	if (
+		event.request.mode === 'navigate' ||
+		url.pathname.endsWith('.html') ||
+		url.pathname === '/'
+	) {
+		event.respondWith(
+			fetch(event.request)
+				.then((response) => {
+					// Кэшируем успешный ответ
+					if (response && response.status === 200) {
+						const responseToCache = response.clone();
+						caches.open(CACHE_NAME).then((cache) => {
+							cache.put(event.request, responseToCache);
+						});
+					}
+					return response;
+				})
+				.catch(() => {
+					// Fallback на кэш если сеть недоступна
+					return caches.match(event.request);
+				})
+		);
+		return;
+	}
+
+	// Cache-first стратегия для статичных ресурсов
 	event.respondWith(
 		caches.match(event.request).then((response) => {
-			// Возвращаем кэшированный ответ, если он есть
 			if (response) {
 				return response;
 			}
 
-			// Иначе делаем сетевой запрос
 			return fetch(event.request).then((response) => {
 				// Проверяем, что получили корректный ответ
 				if (
